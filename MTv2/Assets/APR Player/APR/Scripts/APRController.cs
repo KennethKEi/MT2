@@ -1,24 +1,27 @@
 ﻿using System.Collections;
 using UnityEngine;
 using System.Linq;
+using System.Collections.Generic;
+using Photon.Pun;
 
 
-    //-------------------------------------------------------------
-    //--APR Player
-    //--APRController (Main Player Controller)
-    //
-    //--Unity Asset Store - Version 1.0
-    //
-    //--By The Famous Mouse
-    //
-    //--Twitter @FamousMouse_Dev
-    //--Youtube TheFamouseMouse
-    //-------------------------------------------------------------
+//-------------------------------------------------------------
+//--APR Player
+//--APRController (Main Player Controller)
+//
+//--Unity Asset Store - Version 1.0
+//
+//--By The Famous Mouse
+//
+//--Twitter @FamousMouse_Dev
+//--Youtube TheFamouseMouse
+//-------------------------------------------------------------
 
 
 public class APRController : MonoBehaviour
 {
-    
+    public PhotonView PV;
+
     //-------------------------------------------------------------
     //--Variables
     //-------------------------------------------------------------
@@ -161,43 +164,53 @@ public class APRController : MonoBehaviour
     //////////////
     void Awake()
 	{
-        PlayerSetup();
+        PV = GetComponent<PhotonView>();
+        
 	}
-
+    public void Start()
+    {
+        if (PV.IsMine)
+        {
+            PlayerSetup();
+        }
+    }
 
 
     //---Updates---//
     ////////////////
     void Update()
     {
-        if(useControls && !inAir)
+        if (PV.IsMine)
         {
-            PlayerMovement();
-            
-            if(canPunch)
+            if (useControls && !inAir)
             {
-                PlayerPunch();
+                PlayerMovement();
+
+                if (canPunch)
+                {
+                    PlayerPunch();
+                }
             }
-        }
-        
-        if(useControls)
-        {
-            PlayerReach();
-        }
-        
-        if(balanced && useStepPrediction)
-        {
-            StepPrediction();
+
+            if (useControls)
+            {
+                PlayerReach();
+            }
+
+            if (balanced && useStepPrediction)
+            {
+                StepPrediction();
+                CenterOfMass();
+            }
+
+            if (!useStepPrediction)
+            {
+                ResetWalkCycle();
+            }
+
+            GroundCheck();
             CenterOfMass();
         }
-        
-        if(!useStepPrediction)
-        {
-            ResetWalkCycle();
-        }
-        
-        GroundCheck();
-        CenterOfMass();
     }
     
     
@@ -206,14 +219,17 @@ public class APRController : MonoBehaviour
     //////////////////////
     void FixedUpdate()
     {
-        Walking();
-        
-        if(useControls)
+        if (PV.IsMine)
         {
-            PlayerRotation();
-            ResetPlayerPose();
-            
-            PlayerGetUpJumping();
+            Walking();
+
+            if (useControls)
+            {
+                PlayerRotation();
+                ResetPlayerPose();
+
+                PlayerGetUpJumping();
+            }
         }
     }
 
@@ -351,42 +367,45 @@ public class APRController : MonoBehaviour
 	////////////////////////
 	void StepPrediction()
 	{
-		//Reset variables when balanced
-		if(!WalkForward && !WalkBackward)
+        if (PV.IsMine)
         {
-            StepRight = false;
-            StepLeft = false;
-            Step_R_timer = 0;
-            Step_L_timer = 0;
-            Alert_Leg_Right = false;
-            Alert_Leg_Left = false;
-        }
-		
-		//Check direction to walk when off balance
-        //Backwards
-		if (COMP.position.z < APR_Parts[11].transform.position.z && COMP.position.z < APR_Parts[12].transform.position.z)
-        {
-            WalkBackward = true;
-        }
-        else
-        {
-			if(!isKeyDown)
-			{
-				WalkBackward = false;
-			}
-        }
-        
-        //Forward
-        if (COMP.position.z > APR_Parts[11].transform.position.z && COMP.position.z > APR_Parts[12].transform.position.z)
-        {
-            WalkForward = true;
-        }
-        else
-        {
-            if(!isKeyDown)
-			{
-				WalkForward = false;
-			}
+            //Reset variables when balanced
+            if (!WalkForward && !WalkBackward)
+            {
+                StepRight = false;
+                StepLeft = false;
+                Step_R_timer = 0;
+                Step_L_timer = 0;
+                Alert_Leg_Right = false;
+                Alert_Leg_Left = false;
+            }
+
+            //Check direction to walk when off balance
+            //Backwards
+            if (COMP.position.z < APR_Parts[11].transform.position.z && COMP.position.z < APR_Parts[12].transform.position.z)
+            {
+                WalkBackward = true;
+            }
+            else
+            {
+                if (!isKeyDown)
+                {
+                    WalkBackward = false;
+                }
+            }
+
+            //Forward
+            if (COMP.position.z > APR_Parts[11].transform.position.z && COMP.position.z > APR_Parts[12].transform.position.z)
+            {
+                WalkForward = true;
+            }
+            else
+            {
+                if (!isKeyDown)
+                {
+                    WalkForward = false;
+                }
+            }
         }
 	}
     
@@ -396,15 +415,18 @@ public class APRController : MonoBehaviour
     /////////////////////////
     void ResetWalkCycle()
     {
-        //Reset variables when not moving
-        if(!WalkForward && !WalkBackward)
+        if (PV.IsMine)
         {
-            StepRight = false;
-            StepLeft = false;
-            Step_R_timer = 0;
-            Step_L_timer = 0;
-            Alert_Leg_Right = false;
-            Alert_Leg_Left = false;
+            //Reset variables when not moving
+            if (!WalkForward && !WalkBackward)
+            {
+                StepRight = false;
+                StepLeft = false;
+                Step_R_timer = 0;
+                Step_L_timer = 0;
+                Alert_Leg_Right = false;
+                Alert_Leg_Left = false;
+            }
         }
     }
     
