@@ -6,19 +6,25 @@ using Photon.Pun;
 public class SimpleSampleCharacterControl : MonoBehaviour
 {
     public PhotonView PV;
+    Rigidbody rb;
+
 
     public void Start()
     {
         PV = GetComponent<PhotonView>();
+        rb = GetComponent<Rigidbody>();
     }
 
     public void Initialize(GameObject character)
     {
         if (PV.IsMine)
         {
-
             m_animator = character.GetComponent<Animator>();
             m_rigidBody = character.GetComponent<Rigidbody>();
+        }
+        else if (!PV.IsMine)
+        {
+            Destroy(rb);
         }
     }
 
