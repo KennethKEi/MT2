@@ -5,6 +5,7 @@ public class SimpleSampleCharacterControl : MonoBehaviour
 {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     public PhotonView PV;
     Rigidbody rb;
 
@@ -26,6 +27,12 @@ public class SimpleSampleCharacterControl : MonoBehaviour
         {
             Destroy(rb);
         }
+=======
+    public void Initialize(GameObject character)
+    {
+        m_animator = character.GetComponent<Animator>();
+        m_rigidBody = character.GetComponent<Rigidbody>();
+>>>>>>> parent of 428ee29... Characters animation synced now
 =======
     public void Initialize(GameObject character)
     {
@@ -141,6 +148,7 @@ public class SimpleSampleCharacterControl : MonoBehaviour
 	void FixedUpdate ()
     {
         m_animator.SetBool("Grounded", m_isGrounded);
+<<<<<<< HEAD
 
         switch(m_controlMode)
         {
@@ -152,6 +160,19 @@ public class SimpleSampleCharacterControl : MonoBehaviour
                 TankUpdate();
                 break;
 
+=======
+
+        switch(m_controlMode)
+        {
+            case ControlMode.Direct:
+                DirectUpdate();
+                break;
+
+            case ControlMode.Tank:
+                TankUpdate();
+                break;
+
+>>>>>>> parent of 428ee29... Characters animation synced now
             default:
                 Debug.LogError("Unsupported state");
                 break;
@@ -190,6 +211,7 @@ public class SimpleSampleCharacterControl : MonoBehaviour
     {
         float v = Input.GetAxis("Vertical");
         float h = Input.GetAxis("Horizontal");
+<<<<<<< HEAD
 
         Transform camera = Camera.main.transform;
 
@@ -208,6 +230,26 @@ public class SimpleSampleCharacterControl : MonoBehaviour
         direction.y = 0;
         direction = direction.normalized * directionLength;
 
+=======
+
+        Transform camera = Camera.main.transform;
+
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            v *= m_walkScale;
+            h *= m_walkScale;
+        }
+
+        m_currentV = Mathf.Lerp(m_currentV, v, Time.deltaTime * m_interpolation);
+        m_currentH = Mathf.Lerp(m_currentH, h, Time.deltaTime * m_interpolation);
+
+        Vector3 direction = camera.forward * m_currentV + camera.right * m_currentH;
+
+        float directionLength = direction.magnitude;
+        direction.y = 0;
+        direction = direction.normalized * directionLength;
+
+>>>>>>> parent of 428ee29... Characters animation synced now
         if(direction != Vector3.zero)
         {
             m_currentDirection = Vector3.Slerp(m_currentDirection, direction, Time.deltaTime * m_interpolation);
