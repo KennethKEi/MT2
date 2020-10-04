@@ -264,6 +264,7 @@ Transform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 <<<<<<< HEAD
+<<<<<<< HEAD
 --- !u!1 &1852310723
 GameObject:
   m_ObjectHideFlags: 0
@@ -359,6 +360,8 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 =======
 >>>>>>> parent of 428ee29... Characters animation synced now
+=======
+>>>>>>> parent of 428ee29... Characters animation synced now
 --- !u!1001 &4692904464527162726
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -426,6 +429,7 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+<<<<<<< HEAD
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6afbf9bed67cadd429514a4b3abb83c7, type: 3}
 --- !u!1001 &8968026655447545058
@@ -500,5 +504,7 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+=======
+>>>>>>> parent of 428ee29... Characters animation synced now
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 958f88d37c5aca545bc57ff137546f3b, type: 3}

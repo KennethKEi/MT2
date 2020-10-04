@@ -4,6 +4,7 @@ using System.Collections.Generic;
 public class SimpleSampleCharacterControl : MonoBehaviour
 {
 <<<<<<< HEAD
+<<<<<<< HEAD
     public PhotonView PV;
     Rigidbody rb;
 
@@ -25,6 +26,12 @@ public class SimpleSampleCharacterControl : MonoBehaviour
         {
             Destroy(rb);
         }
+=======
+    public void Initialize(GameObject character)
+    {
+        m_animator = character.GetComponent<Animator>();
+        m_rigidBody = character.GetComponent<Rigidbody>();
+>>>>>>> parent of 428ee29... Characters animation synced now
 =======
     public void Initialize(GameObject character)
     {
